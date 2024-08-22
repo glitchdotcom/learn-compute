@@ -1,16 +1,14 @@
 /**
  * THIS COMPUTE CODE RUNS ON THE FASTLY EDGE
  *
- * 🚀 🚀 🚀 Make sure you deploy again whenever you make a change here 🚀 🚀 🚀
+ * Make sure you deploy again whenever you make a change here 🚀 🚀 🚀
  *
  * When the visitor makes a request for the deployed site
- *  - Our Compute code runs on a Fastly server
- *  - Grabs the user location from the request IP address
- *  - Makes the request to the origin for the site assets (HTML + CSS files, images)
- *  - Adds a cookie to the response and sends it back to the user
+ *  - Compute code grabs the user location from the request IP address
+ *  - Makes the request to the origin for the site content
+ *  - Adds a cookie to the response 
  *  - Sends a synthetic 404 page
  *  - Password protects some pages
- *
  */
 
 import { getGeolocationForIpAddress } from "fastly:geolocation";
@@ -34,10 +32,7 @@ async function handleRequest(_event) {
       new URL(_event.request.url).searchParams.get("ip") ||
       _event.client.address;
 
-    /* 
-    Info you can get from geo
-    https://js-compute-reference-docs.edgecompute.app/docs/fastly:geolocation/getGeolocationForIpAddress
-    */
+    //https://js-compute-reference-docs.edgecompute.app/docs/fastly:geolocation/getGeolocationForIpAddress
     let geo = getGeolocationForIpAddress(ip);
 
     // Where is the user
@@ -107,11 +102,27 @@ async function handleRequest(_event) {
 
       if (!authorized) {
         return new Response(
-          `Not authorized`,
+          `<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Unauthorized</title>
+    <link rel="stylesheet" href="style.css"/>
+  </head>
+  <body>
+    <div class="wrapper">
+    <div class="content">
+    <h1>⛔️ Unauthorized ⛔️</h1>
+    <p>OOPS you need to login to see this page..</p>
+    <p>Go to <a href="/">the homepage</a> instead!</p>
+    </div></div>
+  </body>
+</html>`,
           {
             status: 401,
             headers: new Headers([
               ["WWW-Authenticate", 'Basic realm="Private page"'],
+              ["Content-Type", "text/html"]
             ]),
           }
         );
@@ -121,19 +132,14 @@ async function handleRequest(_event) {
     
     return backendResponse;
   } catch (error) {
-    console.error(error.toString());
-    console.error(error.stack);
-    return new Response("Internal Server Error", {
-      status: 500,
-    });
+    console.error(error);
+    return new Response("Internal Server Error", { status: 500 });
   }
 }
 
 // Helper function to check login 
 function authorize(authorization) {
-  if (!authorization) {
-    return { authorized: false };
-  }
+  if (!authorization) { return { authorized: false }; }
 
   const b64String = authorization.replace("Basic ", "");
   const decoded = Base64.decode(b64String);
