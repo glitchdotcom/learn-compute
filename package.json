@@ -1,0 +1,28 @@
+{
+  "name": "fastly-compute-starter",
+  "version": "0.0.1",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/glitchdotcom/learn-compute.git"
+  },
+  "author": "sue@glitch.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/glitchdotcom/learn-compute/issues"
+  },
+  "homepage": "https://glitch.com/~fastly-compute-starter",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@fastly/js-compute": "^3.7.3",
+    "lodash": "^4.17.21",
+    "node-html-parser": "^6.1.13",
+    "js-base64": "*"
+  },
+  "scripts": {
+    "build": "js-compute-runtime ./src/index.js ./bin/main.wasm",
+    "deploy": "fastly compute publish"
+  }
+}
