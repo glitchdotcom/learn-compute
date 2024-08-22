@@ -4,14 +4,14 @@ You can use the code in this project to set up a Fastly compute service using a 
 
 ## Demo
 
-You can see an example of what this starter does at [fastly-compute-starter.edgecompute.app](https://fastly-compute-starter.edgecompute.app)
+You can explore an example of what this starter does at [fastly-compute-starter.edgecompute.app](https://fastly-compute-starter.edgecompute.app)
 
 * It sends a location cookie with the response including some info about the Fastly POP handling it
-  * The Glitch origin writes it into the page, if you're using your own site you'll find it in the site headers using your browser dev tools
+  * _The Glitch origin writes it into the page_
 * It returns a synthetic 404 page if the origin website returns a Not Found error
-  * Try it at [fastly-compute-starter.edgecompute.app/ohno](https://fastly-compute-starter.edgecompute.app/ohno)
+  * _Try it at [fastly-compute-starter.edgecompute.app/ohno](https://fastly-compute-starter.edgecompute.app/ohno)_
 * It password protects any page that starts with "p"
-  * Try it at [fastly-compute-starter.edgecompute.app/private](https://fastly-compute-starter.edgecompute.app/private) entering any username and the password `supersecret`
+  * _Try it at [fastly-compute-starter.edgecompute.app/private](https://fastly-compute-starter.edgecompute.app/private) entering any username and the password `supersecret` or clicking the **Cancel** button_
 
 ## Setup
 
@@ -46,6 +46,33 @@ When prompted to add a "backend" you can use the default Glitch app or enter an 
 ![Choose a backend](https://github.com/user-attachments/assets/83cee318-5601-4279-8337-d1b990634d68)
 
 > 🎏 You'll find the commands in the Glitch project `package.json` and can use `npm run publish` as a shortcut in the Glitch editor.
+
+In your deployed site check out the changes Fastly makes to the request and response at the edge:
+
+* Open the dev tools and find the `location` cookie
+* Navigate to a page that doesn't exist, like `/ohno`
+* Navigate to a path beginning with "p" like `/private`
+
+### Edit your code 
+
+Try including a greeting that indicates the user's time of day – in the compute code you'll find a comment with 🚧 🚧 🚧 in it, add the following code after it:
+
+```
+// Let's get the time of day and find out how far from UTC it is
+let displayTime = new Date().getHours();
+let offset = geo.utc_offset;
+displayTime += offset / 100;
+    
+// Tailor the greeting to the user time of day
+greeting =
+  displayTime > 4 && displayTime < 12
+    ? "Morning!"
+    : displayTime >= 12 && displayTime < 18
+    ? "Afternoon!"
+    : "Evening!"; 
+```
+
+Once you've finished editing your compute code, enter `npm run publish` again and give it a minute to deploy your changes!
 
 ## Help
 
