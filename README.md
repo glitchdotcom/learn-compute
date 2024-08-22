@@ -27,17 +27,17 @@ Start a new compute project using this app as a template:
 fastly compute init --from=https://github.com/glitchdotcom/learn-compute/
 ```
 
-> 💡 Tip: Include the flag `--accept-defaults` if you don't want to choose all the details.
+> 💡 Include the flag `--accept-defaults` if you don't want to choose all the details.
 
 Install dependencies: `npm install`
 
 By default the edge app will use `fastly-compute-starter.glitch.me` as its origin, but you can change it to use your own site. 
 
-> 🎏 Tip: Remix the Glitch project and it'll automatically set your remix as the origin!
+> 🎏 Remix the Glitch project and it'll automatically set your remix as the origin! You can use the `init` command in other Glitch projects.
 
 Once you have the repo installed locally and your API token set up in your environment, use the command `fastly compute publish` to deploy the app to a compute service.
 
-> 🎏 Tip: You'll find the commands in the Glitch project `package.json` and can use `npm run publish` as a shortcut.
+> 🎏 You'll find the commands in the Glitch project `package.json` and can use `npm run publish` as a shortcut.
 
 ## Help
 
