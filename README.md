@@ -22,6 +22,9 @@ Alternatively you can develop with the project locally by [installing the Fastly
 ```
 fastly compute init --from=https://github.com/glitchdotcom/learn-compute/
 ```
+> 💡 Tip: Include the flag `--accept-defaults` if you don't want to choose the details.
+
+Install dependencies: `npm install`
 
 By default the edge app will use `fastly-compute-starter.glitch.me` as its origin, but you can change it to use your own site. 
 
