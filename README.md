@@ -2,6 +2,8 @@
 
 You can use the code in this project to set up a Fastly compute service using a default Glitch origin website.
 
+[![Deploy to Fastly](https://deploy.edgecompute.app/button)](https://deploy.edgecompute.app/deploy)
+
 ## Demo
 
 You can see an example of what this starter does at [fastly-compute-starter.edgecompute.app](https://fastly-compute-starter.edgecompute.app)
