@@ -35,9 +35,17 @@ By default the edge app will use `fastly-compute-starter.glitch.me` as its origi
 
 > 🎏 Remix the Glitch project and it'll automatically set your remix as the origin!
 
-Once you have the repo installed locally and your API token set up in your environment, use the command `fastly compute publish` to deploy the app to a compute service.
+Once you have the repo installed locally and your API token set up in your environment, use the publish command to deploy the app to a compute service:
 
-> 🎏 You'll find the commands in the Glitch project `package.json` and can use `npm run publish` as a shortcut.
+```
+fastly compute publish
+```
+
+When prompted to add a "backend" you can use the default Glitch app or enter an origin website of your choice.
+
+![Choose a backend](https://github.com/user-attachments/assets/83cee318-5601-4279-8337-d1b990634d68)
+
+> 🎏 You'll find the commands in the Glitch project `package.json` and can use `npm run publish` as a shortcut in the Glitch editor.
 
 ## Help
 
