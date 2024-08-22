@@ -6,7 +6,7 @@
  * When the visitor makes a request for the deployed site
  *  - Compute code grabs the user location from the request IP address
  *  - Makes the request to the origin for the site content
- *  - Adds a cookie to the response 
+ *  - Adds a cookie to the response
  *  - Sends a synthetic 404 page
  *  - Password protects some pages
  */
@@ -21,11 +21,10 @@ let where = "?",
 addEventListener("fetch", (event) => event.respondWith(handleRequest(event)));
 
 async function handleRequest(_event) {
-  
   //The request the user made
   let req = _event.request;
   let url = new URL(req.url);
-  
+
   //Find out the user location info
   try {
     let ip =
@@ -71,22 +70,10 @@ async function handleRequest(_event) {
     // Return a synthetic page if the origin returns a 404
     if (backendResponse.status === 404) {
       backendResponse = new Response(
-        `<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <title>404</title>
-    <link rel="stylesheet" href="style.css"/>
-  </head>
-  <body>
-    <div class="wrapper">
-    <div class="content">
-    <h1>⚠️ 404 ⚠️</h1>
-    <p>WELP the page you requested can't be found..</p>
-    <p>Go to <a href="/">the homepage</a> instead!</p>
-    </div></div>
-  </body>
-</html>`,
+        getSynthPage(
+          "⚠️ 404 ⚠️",
+          "WELP the page you requested can't be found.."
+        ),
         {
           status: 404,
           headers: {
@@ -102,34 +89,21 @@ async function handleRequest(_event) {
 
       if (!authorized) {
         return new Response(
-          `<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Unauthorized</title>
-    <link rel="stylesheet" href="style.css"/>
-  </head>
-  <body>
-    <div class="wrapper">
-    <div class="content">
-    <h1>⛔️ Unauthorized ⛔️</h1>
-    <p>OOPS you need to login to see this page..</p>
-    <p>Go to <a href="/">the homepage</a> instead!</p>
-    </div></div>
-  </body>
-</html>`,
+          getSynthPage(
+            "⛔️ Unauthorized ⛔️",
+            "OOPS you need to login to see this page.."
+          ),
           {
             status: 401,
             headers: new Headers([
               ["WWW-Authenticate", 'Basic realm="Private page"'],
-              ["Content-Type", "text/html"]
+              ["Content-Type", "text/html"],
             ]),
           }
         );
-      }
-      else console.log(username + " viewed a secret page");
+      } else console.log(username + " viewed a secret page");
     }
-    
+
     return backendResponse;
   } catch (error) {
     console.error(error);
@@ -137,9 +111,11 @@ async function handleRequest(_event) {
   }
 }
 
-// Helper function to check login 
+// Helper function to check login
 function authorize(authorization) {
-  if (!authorization) { return { authorized: false }; }
+  if (!authorization) {
+    return { authorized: false };
+  }
 
   const b64String = authorization.replace("Basic ", "");
   const decoded = Base64.decode(b64String);
@@ -147,4 +123,26 @@ function authorize(authorization) {
 
   if (password !== "supersecret") return { authorized: false };
   return { authorized: true, username };
+}
+
+// The synthetic page is tailored to the Glitch origin so tweak to suit your site!
+function getSynthPage(heading, message) {
+  return `
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>404</title>
+    <link rel="stylesheet" href="style.css"/>
+  </head>
+  <body>
+    <div class="wrapper">
+    <div class="content">
+    <h1>${heading}</h1>
+    <p>${message}</p>
+    <p>Go to <a href="/">the homepage</a> instead!</p>
+    </div></div>
+    <script src="switch.js"></script>
+  </body>
+</html>`;
 }
