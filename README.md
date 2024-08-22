@@ -15,14 +15,19 @@ You can see an example of what this starter does at [fastly-compute-starter.edge
 
 ## Setup
 
-Try the starter app out in Glitch by remixing [~fastly-compute-starter](https://glitch.com/~fastly-compute-starter)
+Try the starter app out in Glitch by remixing [~fastly-compute-starter](https://glitch.com/~fastly-compute-starter) and popping a Fastly API key into the environment.
 
-Alternatively you can develop with the project locally by [installing the Fastly tools](https://www.fastly.com/documentation/guides/compute/) and starting a new compute project using the following command:
+Alternatively develop with the project locally by [installing the Fastly tools](https://www.fastly.com/documentation/guides/compute/) and starting a new compute project.
+
+Create a new directory and navigate to it in your Terminal.
+
+Start a new compute project using this app as a template:
 
 ```
 fastly compute init --from=https://github.com/glitchdotcom/learn-compute/
 ```
-> 💡 Tip: Include the flag `--accept-defaults` if you don't want to choose the details.
+
+> 💡 Tip: Include the flag `--accept-defaults` if you don't want to choose all the details.
 
 Install dependencies: `npm install`
 
