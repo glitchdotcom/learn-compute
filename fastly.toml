@@ -16,5 +16,6 @@ name = "fastly-compute-starter"
 
     [setup.backends.glitch]
       address = "fastly-compute-starter.glitch.me"
+      override_host = "fastly-compute-starter.glitch.me"
       description = "Glitch backend"
       port = 443
