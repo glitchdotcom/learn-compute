@@ -13,7 +13,7 @@ You can explore an example of what this starter does at [fastly-compute-starter.
 * It password protects any page that starts with "p"
   * _Try it at [fastly-compute-starter.edgecompute.app/private](https://fastly-compute-starter.edgecompute.app/private) entering any username and the password `supersecret` or clicking the **Cancel** button_
 * It renders JSON data as an HTML page
-  * _Try it at [fastly-compute-starter.edgecompute.app/data.json](https://fastly-compute-starter.edgecompute.app/data.json)
+  * _Try it at [fastly-compute-starter.edgecompute.app/data.json](https://fastly-compute-starter.edgecompute.app/data.json)_
 * The Glitch origin also tweaks the style a little at the edge
 
 ## Setup
