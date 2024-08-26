@@ -6,12 +6,15 @@ You can use the code in this project to set up a Fastly compute service using a 
 
 You can explore an example of what this starter does at [fastly-compute-starter.edgecompute.app](https://fastly-compute-starter.edgecompute.app)
 
-* It sends a location cookie with the response including some info about the Fastly POP handling it
+* It sends a location cookie with the response including some info about the Fastly POP handling the request
   * _The Glitch origin writes it into the page_
 * It returns a synthetic 404 page if the origin website returns a Not Found error
   * _Try it at [fastly-compute-starter.edgecompute.app/ohno](https://fastly-compute-starter.edgecompute.app/ohno)_
 * It password protects any page that starts with "p"
   * _Try it at [fastly-compute-starter.edgecompute.app/private](https://fastly-compute-starter.edgecompute.app/private) entering any username and the password `supersecret` or clicking the **Cancel** button_
+* It renders JSON data as an HTML page
+  * _Try it at [fastly-compute-starter.edgecompute.app/data.json](https://fastly-compute-starter.edgecompute.app/data.json)
+* The Glitch origin also tweaks the style a little at the edge
 
 ## Setup
 
@@ -52,6 +55,7 @@ In your deployed site check out the changes Fastly makes to the request and resp
 * Open the dev tools and find the `location` cookie
 * Navigate to a page that doesn't exist, like `/ohno`
 * Navigate to a path beginning with "p" like `/private`
+* Navigate to a path that returns JSON like `/data.json`
 
 ### Edit your code 
 
