@@ -2,6 +2,10 @@
 
 You can use the code in this project to set up a Fastly compute service using a default Glitch origin website.
 
+Fastly will enhance the site UX at the edge:
+
+![Origin and Edge sites](https://cdn.glitch.global/440676d6-9f80-4373-9607-edd8da81adfa/computestarterdiff.png?v=1724684942876)
+
 ## Demo
 
 You can explore an example of what this starter does at [fastly-compute-starter.edgecompute.app](https://fastly-compute-starter.edgecompute.app)
