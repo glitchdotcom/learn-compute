@@ -20,7 +20,7 @@ You can explore an example of what this starter does at [fastly-compute-starter.
   * _Try it at [fastly-compute-starter.edgecompute.app/data.json](https://fastly-compute-starter.edgecompute.app/data.json)_
 * The Glitch origin also tweaks the style a little at the edge
 
-## Setup
+## 1. Setup
 
 Try the starter app out in Glitch by remixing [~fastly-compute-starter](https://glitch.com/~fastly-compute-starter) and popping a Fastly API key into the environment.
 
@@ -42,6 +42,8 @@ By default the edge app will use `fastly-compute-starter.glitch.me` as its origi
 
 > 🎏 Remix the Glitch project and it'll automatically set your remix as the origin!
 
+## 2. Publish your app
+
 Once you have the repo installed locally and your API token set up in your environment, use the publish command to deploy the app to a compute service:
 
 ```
@@ -61,7 +63,7 @@ In your deployed site check out the changes Fastly makes to the request and resp
 * Navigate to a path beginning with "p" like `/private`
 * Navigate to a path that returns JSON like `/data.json`
 
-### Edit your code 
+## 3. Edit your code 
 
 Try including a greeting that indicates the user's time of day – in the compute code you'll find a comment with 🚧 🚧 🚧 in it, add the following code after it:
 
