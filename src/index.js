@@ -40,7 +40,7 @@ async function handleRequest(_event) {
       " " +
       geo.country_code;
 
-    // 🚧 🚧 🚧 Add the code from Step 3 in the Glitch README on the next line 🚧 🚧 🚧
+    // 🚧 🚧 🚧 Add the code from Step 3 in the README on the next line 🚧 🚧 🚧
 
     // Grab the auth header
     const authorizationHeader = req.headers.get("authorization");
