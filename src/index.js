@@ -1,19 +1,18 @@
 /**
  * THIS COMPUTE CODE RUNS ON THE FASTLY EDGE
  *
- * Make sure you deploy again whenever you make a change here 🚀 🚀 🚀
- *
  * When the visitor makes a request for the deployed site
  *  - Compute code grabs the user location from the request IP address
  *  - Makes the request to the origin for the site content
  *  - Adds a cookie to the response
  *  - Sends a synthetic 404 page
  *  - Password protects some pages
+ *  - Renders JSON as HTML
  */
 
+// Get your own remix of the origin site at fastly-compute-starter.glitch.me
+
 import { getGeolocationForIpAddress } from "fastly:geolocation";
-import { Base64 } from "js-base64";
-let _ = require("lodash");
 let where = "?",
   greeting = "Hello!";
 
@@ -35,9 +34,13 @@ async function handleRequest(_event) {
     let geo = getGeolocationForIpAddress(ip);
 
     // Where is the user
-    where = _.startCase(_.toLower(geo.city)) + " " + geo.country_code;
+    where =
+      geo.city.charAt(0).toUpperCase() +
+      geo.city.slice(1).toLowerCase() +
+      " " +
+      geo.country_code;
 
-    // 🚧 🚧 🚧 Add the code from Step 4 in the README on the next line 🚧 🚧 🚧
+    // 🚧 🚧 🚧 Add the code from Step 3 in the Glitch README on the next line 🚧 🚧 🚧
 
     // Grab the auth header
     const authorizationHeader = req.headers.get("authorization");
@@ -47,29 +50,31 @@ async function handleRequest(_event) {
     req = new Request(url, req);
 
     //Get the origin response
-    let backendResponse = await fetch(req, {
+    let originResponse = await fetch(req, {
       backend: "glitch",
     });
 
-    // Find out which pop delivered the response
-    let pop = backendResponse.headers.get("x-served-by");
-    pop = pop.substring(pop.lastIndexOf("-") + 1);
+    // Homepage response adds a location cookie
+    if(req.url.pathname=="/") {
+      // Find out which pop delivered the response
+      let pop = originResponse.headers.get("x-served-by");
+      pop = pop.substring(pop.lastIndexOf("-") + 1);
 
-    // Tag the response with a cookie including the user location
-    backendResponse.headers.set(
-      "Set-Cookie",
-      "location=" +
-        greeting +
-        " This reponse was delivered by the Fastly " +
-        pop +
-        " POP for a request from " +
-        where +
-        "; SameSite=None; Secure"
-    );
-
+      // Tag the response with a cookie including the user location
+      originResponse.headers.set(
+        "Set-Cookie",
+        "location=" +
+          greeting +
+          " This reponse was delivered by the Fastly " +
+          pop +
+          " POP for a request from " +
+          where +
+          "; SameSite=None; Secure"
+      );
+    }
     // Return a synthetic page if the origin returns a 404
-    if (backendResponse.status === 404) {
-      backendResponse = new Response(
+    if (originResponse.status === 404) {
+      originResponse = new Response(
         getSynthPage(
           "⚠️ 404 ⚠️",
           "WELP the page you requested can't be found.."
@@ -81,14 +86,14 @@ async function handleRequest(_event) {
           },
         }
       );
-    }
-
+    } 
     // Password protect anything starting with a p
     if (url.pathname.startsWith("/p")) {
+      
       const { authorized, username } = authorize(authorizationHeader);
 
       if (!authorized) {
-        return new Response(
+        originResponse = new Response(
           getSynthPage(
             "⛔️ Unauthorized ⛔️",
             "OOPS you need to login to see this page.."
@@ -102,9 +107,26 @@ async function handleRequest(_event) {
           }
         );
       } else console.log(username + " viewed a secret page");
-    }
+    } 
+    // Check for JSON data
+    if (url.pathname.endsWith(".json")) {
+      
+      let data = await originResponse.json();
+      // The default Glitch origin includes a field called "information"
+      let content = data.information
+        ? `<table><tr><td>Information:</td><td>` +
+          data.information +
+          `</td></tr></table>`
+        : `<pre>` + JSON.stringify(data, null, 2) + `</pre>`;
+      originResponse = new Response(getSynthPage("📊 DATA 📊", content), {
+        status: 200,
+        headers: {
+          "Content-Type": "text/html",
+        },
+      });
+    } 
 
-    return backendResponse;
+    return originResponse;
   } catch (error) {
     console.error(error);
     return new Response("Internal Server Error", { status: 500 });
@@ -118,21 +140,24 @@ function authorize(authorization) {
   }
 
   const b64String = authorization.replace("Basic ", "");
-  const decoded = Base64.decode(b64String);
+  const decoded = atob(b64String);
   const [username, password] = decoded.split(":");
 
+  // 🔐 THIS IS THE PASSWORD 🔐
   if (password !== "supersecret") return { authorized: false };
   return { authorized: true, username };
 }
 
 // The synthetic page is tailored to the Glitch origin so tweak to suit your site!
 function getSynthPage(heading, message) {
+  // The default Glitch origin has a stylesheet called "style.css"
   return `
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>404</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>${heading}</title>
     <link rel="stylesheet" href="style.css"/>
   </head>
   <body>
@@ -140,9 +165,8 @@ function getSynthPage(heading, message) {
     <div class="content">
     <h1>${heading}</h1>
     <p>${message}</p>
-    <p>Go to <a href="/">the homepage</a> instead!</p>
+    <p>Go to <a href="/">the homepage</a></p>
     </div></div>
-    <script src="switch.js"></script>
   </body>
 </html>`;
 }
