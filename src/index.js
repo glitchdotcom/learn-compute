@@ -20,11 +20,11 @@ let where = "?",
 addEventListener("fetch", (event) => event.respondWith(handleRequest(event)));
 
 async function handleRequest(_event) {
-  //The request the user made
+  // The request the user made
   let req = _event.request;
   let url = new URL(req.url);
 
-  //Find out the user location info
+  // Find out the user location info
   try {
     let ip =
       new URL(_event.request.url).searchParams.get("ip") ||
@@ -49,7 +49,7 @@ async function handleRequest(_event) {
     // Build a new request
     req = new Request(url, req);
 
-    //Get the origin response
+    // Get the origin response
     let originResponse = await fetch(req, {
       backend: "glitch",
     });
