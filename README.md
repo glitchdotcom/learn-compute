@@ -1,6 +1,6 @@
 # Learn about edge computing with Fastly and Glitch
 
-You can use the code in this project to set up a Fastly compute service using a default Glitch origin website.
+You can use the code in this project to set up a Fastly Compute service using a default Glitch origin website.
 
 Fastly will enhance the site UX at the edge:
 
@@ -17,18 +17,18 @@ You can explore an example of what this starter does at [fastly-compute-starter.
 * It password protects any page that starts with "p"
   * _Try it at [fastly-compute-starter.edgecompute.app/private](https://fastly-compute-starter.edgecompute.app/private) entering any username and the password `supersecret` or clicking the **Cancel** button_
 * It renders JSON data as an HTML page
-  * _Try it at [fastly-compute-starter.edgecompute.app/data.json](https://fastly-compute-starter.edgecompute.app/data.json)_
+  * _Try it at [fastly-compute-starter.edgecompute.app/info.json](https://fastly-compute-starter.edgecompute.app/info.json)_
 * The Glitch origin also tweaks the style a little at the edge
 
 ## 1. Setup
 
-Try the starter app out in Glitch by remixing [~fastly-compute-starter](https://glitch.com/~fastly-compute-starter) and popping a Fastly API key into the environment.
+> 🎏 Try the starter app out in Glitch by remixing [~fastly-compute-starter](https://glitch.com/~fastly-compute-starter) and popping a Fastly API key into the environment.
 
-Alternatively develop with the project locally by [installing the Fastly tools](https://www.fastly.com/documentation/guides/compute/) and starting a new compute project.
+Alternatively, develop with the project locally by [installing the Fastly tools](https://www.fastly.com/documentation/guides/compute/) and starting a new Compute project.
 
 Create a new directory and navigate to it in your Terminal.
 
-Start a new compute project using this app as a template:
+Start a new Compute project using this app as a template:
 
 ```
 fastly compute init --from=https://github.com/glitchdotcom/learn-compute/
@@ -40,11 +40,11 @@ Install dependencies: `npm install`
 
 By default the edge app will use `fastly-compute-starter.glitch.me` as its origin, but you can change it to use your own site. 
 
-> 🎏 Remix the Glitch project and it'll automatically set your remix as the origin!
+> 🎏 If you remix the Glitch project it'll automatically set your remix address as the origin!
 
 ## 2. Publish your app
 
-Once you have the repo installed locally and your API token set up in your environment, use the publish command to deploy the app to a compute service:
+Once you have the repo installed locally and your API token set up in your environment, use the publish command to deploy the app to a Compute service:
 
 ```
 fastly compute publish
@@ -61,11 +61,11 @@ In your deployed site check out the changes Fastly makes to the request and resp
 * Open the dev tools and find the `location` cookie
 * Navigate to a page that doesn't exist, like `/ohno`
 * Navigate to a path beginning with "p" like `/private`
-* Navigate to a path that returns JSON like `/data.json`
+* Navigate to a path that returns JSON like `/info.json`
 
 ## 3. Edit your code 
 
-Try including a greeting that indicates the user's time of day – in the compute code you'll find a comment with 🚧 🚧 🚧 in it, add the following code after it:
+Try including a greeting that indicates the user's time of day – in the Compute code you'll find a comment with 🚧 🚧 🚧 in it, add the following code after it:
 
 ```
 // Let's get the time of day and find out how far from UTC it is
@@ -82,7 +82,7 @@ greeting =
     : "Evening!"; 
 ```
 
-Once you've finished editing your compute code, enter `npm run publish` again and give it a minute to deploy your changes!
+Once you've finished editing your Compute code, enter `npm run publish` again and give it a minute to deploy your changes!
 
 ## Help
 
