@@ -1,6 +1,8 @@
 /**
  * THIS COMPUTE CODE RUNS ON THE FASTLY EDGE
  *
+ * Make sure you deploy again whenever you make a change here 🚀 🚀 🚀
+ *
  * When the visitor makes a request for the deployed site
  *  - Compute code grabs the user location from the request IP address
  *  - Makes the request to the origin for the site content
@@ -9,8 +11,6 @@
  *  - Password protects some pages
  *  - Renders JSON as HTML
  */
-
-// Get your own remix of the origin site at fastly-compute-starter.glitch.me
 
 import { getGeolocationForIpAddress } from "fastly:geolocation";
 let where = "?",
@@ -54,24 +54,22 @@ async function handleRequest(_event) {
       backend: "glitch",
     });
 
-    // Homepage response adds a location cookie
-    if(req.url.pathname=="/") {
-      // Find out which pop delivered the response
-      let pop = originResponse.headers.get("x-served-by");
-      pop = pop.substring(pop.lastIndexOf("-") + 1);
+    // Find out which pop delivered the response
+    let pop = originResponse.headers.get("x-served-by");
+    pop = pop.substring(pop.lastIndexOf("-") + 1);
 
-      // Tag the response with a cookie including the user location
-      originResponse.headers.set(
-        "Set-Cookie",
-        "location=" +
-          greeting +
-          " This reponse was delivered by the Fastly " +
-          pop +
-          " POP for a request from " +
-          where +
-          "; SameSite=None; Secure"
-      );
-    }
+    // Tag the response with a cookie including the user location
+    originResponse.headers.set(
+      "Set-Cookie",
+      "location=" +
+        greeting +
+        " This reponse was delivered by the Fastly " +
+        pop +
+        " POP for a request from " +
+        where +
+        "; SameSite=None; Secure"
+    );
+
     // Return a synthetic page if the origin returns a 404
     if (originResponse.status === 404) {
       originResponse = new Response(
@@ -86,10 +84,9 @@ async function handleRequest(_event) {
           },
         }
       );
-    } 
+    }
     // Password protect anything starting with a p
     if (url.pathname.startsWith("/p")) {
-      
       const { authorized, username } = authorize(authorizationHeader);
 
       if (!authorized) {
@@ -107,10 +104,9 @@ async function handleRequest(_event) {
           }
         );
       } else console.log(username + " viewed a secret page");
-    } 
+    }
     // Check for JSON data
     if (url.pathname.endsWith(".json")) {
-      
       let data = await originResponse.json();
       // The default Glitch origin includes a field called "information"
       let content = data.information
@@ -124,7 +120,7 @@ async function handleRequest(_event) {
           "Content-Type": "text/html",
         },
       });
-    } 
+    }
 
     return originResponse;
   } catch (error) {
