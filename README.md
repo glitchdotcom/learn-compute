@@ -26,12 +26,16 @@ You can explore an example of what this starter does at [fastly-compute-starter.
 
 Alternatively, develop with the project locally by [installing the Fastly tools](https://www.fastly.com/documentation/guides/compute/) and starting a new Compute project.
 
-Create a new directory and navigate to it in your Terminal.
+Create a new directory and navigate to it in your Terminal. Install the CLI:
+
+```
+npm install @fastly/cli
+```
 
 Start a new Compute project using this app as a template:
 
 ```
-fastly compute init --from=https://github.com/glitchdotcom/learn-compute/
+npx fastly compute init --from=https://github.com/glitchdotcom/learn-compute/
 ```
 
 > 💡 Include the flag `--accept-defaults` if you don't want to choose all the details.
@@ -47,7 +51,7 @@ By default the edge app will use `fastly-compute-starter.glitch.me` as its origi
 Once you have the repo installed locally and your API token set up in your environment, use the publish command to deploy the app to a Compute service:
 
 ```
-fastly compute publish
+npx fastly compute publish
 ```
 
 When prompted to add a "backend" you can use the default Glitch app or enter an origin website of your choice.
@@ -82,7 +86,7 @@ greeting =
     : "Evening!"; 
 ```
 
-Once you've finished editing your Compute code, enter `npm run publish` again and give it a minute to deploy your changes!
+Once you've finished editing your Compute code, run the publish command again and give it a minute to deploy your changes!
 
 ## Help
 
