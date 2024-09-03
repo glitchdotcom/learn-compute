@@ -90,4 +90,6 @@ Once you've finished editing your Compute code, run the publish command again an
 
 ## Help
 
+[Clone the example Fiddle](https://fiddle.fastly.dev/fiddle/7fc13921) to test your Compute code in the browser.
+
 [Get help on the Fastly community forum!](https://community.fastly.com)
